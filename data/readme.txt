@@ -3,6 +3,8 @@ A study tested whether cholesterol was reduced after using a certain brand of ma
 The subjects consumed on average 2.31g of the active ingredient, stanol easter, a day. This data set contains information on 18 people 
 using margarine to reduce cholesterol over three time points. 
 
+
+
 Python classification
 There are 3 types of input features:
     Objective: factual information;
@@ -21,6 +23,8 @@ Features:
     Alcohol intake | Subjective Feature | alco | binary |
     Physical activity | Subjective Feature | active | binary |
     Presence or absence of cardiovascular disease | Target Variable | cardio | binary |
+
+
 
 Topic modeling 
 Tweets of the COVID_19
