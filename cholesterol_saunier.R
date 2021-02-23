@@ -40,12 +40,69 @@ typeB = cholcsv[cholcsv$Margarine=="B",]
 
 #passer les données en format "Tall" pour plotter
 melted.all = melt(cholcsv[-5], id.vars="ID")
-melted.typeA = melt(cholcsv[-5], id.vars="ID")
-melted.typeB = melt(cholcsv[-5], id.vars="ID")
+melted.typeA = melt(typeA[-5], id.vars="ID")
+melted.typeB = melt(typeB[-5], id.vars="ID")
 
+# Création des plots. Pour ce faire, on utilise les données sous format 'tall'
 ggplot(melted.all, aes(ID,value, col=variable)) + 
-  geom_point() + 
-  stat_smooth()
+  geom_point()
+#   +stat_smooth()
+
+ggplot(melted.typeA, aes(ID,value, col=variable)) + 
+  geom_point()
 
 
+ggplot(melted.typeB, aes(ID,value, col=variable)) + 
+  geom_point()
 
+
+# Faire une ANOVA pour chercher différence type A et type B ?
+# Faire une petite comparaison aux amélioration moyennes attendues avec statines ?
+
+
+# ********************************************
+# Pour tous types de margarine confondus :
+# Amélioration moyenne en 4 semaines :
+mean(cholcsv$Before - cholcsv$After4weeks)
+
+# écart-type d'amélioration moyenne en 4 semaines:
+sd(cholcsv$Before - cholcsv$After4weeks)
+
+# Amélioration moyenne en 8 semaines :
+mean(cholcsv$Before - cholcsv$After8weeks)
+
+# écart-type :
+sd(cholcsv$Before - cholcsv$After8weeks)
+# ********************************************
+
+
+# ********************************************
+# Pour Margarine de type A :
+# Amélioration moyenne en 4 semaines :
+mean(typeA$Before - typeA$After4weeks)
+
+# écart-type d'amélioration moyenne en 4 semaines:
+sd(typeA$Before - typeA$After4weeks)
+
+# Amélioration moyenne en 8 semaines :
+mean(typeA$Before - typeA$After8weeks)
+
+# écart-type :
+sd(typeA$Before - typeA$After8weeks)
+# ********************************************
+
+
+# ********************************************
+# Pour Margarine de type B :
+# Amélioration moyenne en 4 semaines :
+mean(typeB$Before - typeB$After4weeks)
+
+# écart-type d'amélioration moyenne en 4 semaines:
+sd(typeB$Before - typeB$After4weeks)
+
+# Amélioration moyenne en 8 semaines :
+mean(typeB$Before - typeB$After8weeks)
+
+# écart-type :
+sd(typeB$Before - typeB$After8weeks)
+# ********************************************
