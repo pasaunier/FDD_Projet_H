@@ -23,10 +23,10 @@ library(ggplot2)    #plotting
 cholcsv = read.csv("./data/Cholesterol_R.csv", header=TRUE, fileEncoding = 'UTF-8-BOM')
 
 
-#avant de passer à la suite, il est iportant d'explorer un peu le CSV
+#avant de passer à la suite, il est important d'explorer un peu le CSV
 #l'explorateur de variable de rstudio est bien pour cela.
 
-#récuperer le header du fichier dans une variable 'header'
+#récupérer le header du fichier dans une variable 'header'
 header = colnames(cholcsv)
 header
 
@@ -34,7 +34,7 @@ header
 #la première colonne 'id' est exclue des stats (pas de sens de faire des stats sur un id autoincrémenté)
 summary(cholcsv[-1])
 
-#utilisation de la fonction table pour voir les catégories de la colone 'Margarine'
+#utilisation de la fonction table pour voir les catégories de la colonne 'Margarine'
 table(cholcsv$Margarine)
 
 "
