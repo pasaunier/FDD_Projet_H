@@ -9,7 +9,6 @@ The subjects consumed on average 2.31g of the active ingredient, stanol easter, 
 using margarine to reduce cholesterol over three time points.
 "
 
-
 #charger les données du csv dans une variable 'cholcsv'
 cholcsv = read.csv("./data/Cholesterol_R.csv", header=TRUE, fileEncoding = 'UTF-8-BOM')
 
@@ -40,7 +39,13 @@ typeA = cholcsv[cholcsv$Margarine=="A",]
 typeB = cholcsv[cholcsv$Margarine=="B",]
 
 #passer les données en format "Tall" pour plotter
-d = melt(cholcsv, id.vars="ID")
+melted.all = melt(cholcsv[-5], id.vars="ID")
+melted.typeA = melt(cholcsv[-5], id.vars="ID")
+melted.typeB = melt(cholcsv[-5], id.vars="ID")
+
+ggplot(melted.all, aes(ID,value, col=variable)) + 
+  geom_point() + 
+  stat_smooth()
 
 
-ggplot(data=cholcsv,x=x1, color=Margarine)
+
