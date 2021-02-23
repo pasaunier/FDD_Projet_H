@@ -8,6 +8,16 @@ A study tested whether cholesterol was reduced after using a certain brand of ma
 The subjects consumed on average 2.31g of the active ingredient, stanol easter, a day. This data set contains information on 18 people
 using margarine to reduce cholesterol over three time points.
 "
+# installation des packages si besoin:
+# install.packages("readr")
+# install.packages("reshape2")
+# install.packages("ggplot2")
+
+#import des packages 
+library(readr)      #lecteur de csv
+library(reshape2)   #fonction melt 
+library(ggplot2)    #plotting
+
 
 #charger les données du csv dans une variable 'cholcsv'
 cholcsv = read.csv("./data/Cholesterol_R.csv", header=TRUE, fileEncoding = 'UTF-8-BOM')
@@ -24,9 +34,11 @@ header
 #la première colonne 'id' est exclue des stats (pas de sens de faire des stats sur un id autoincrémenté)
 summary(cholcsv[-1])
 
+#utilisation de la fonction table pour voir les catégories de la colone 'Margarine'
+table(cholcsv$Margarine)
 
 "
-Deux types de margarine sont dans le dataset.
+Il y a deux types de margarine dans le dataset : A et B
 il faut faire 3 jeux de data :
   - Un pour le type A
   - Un pour le type B
