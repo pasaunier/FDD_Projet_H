@@ -21,6 +21,8 @@ library(ggplot2)    #plotting
 
 #charger les données du csv dans une variable 'cholcsv'
 cholcsv = read.csv("./data/Cholesterol_R.csv", header=TRUE, fileEncoding = 'UTF-8-BOM')
+#si le path du csv n'est pas valide, utiliser file.choose()
+# cholcsvfile = read.csv(file.choose(), header=TRUE, fileEncoding = 'UTF-8-BOM')
 
 
 #avant de passer à la suite, il est important d'explorer un peu le CSV
@@ -55,17 +57,31 @@ melted.all = melt(cholcsv[-5], id.vars="ID")
 melted.typeA = melt(typeA[-5], id.vars="ID")
 melted.typeB = melt(typeB[-5], id.vars="ID")
 
+
+# Définition d'une palette custom pour les plots
+mypalette <- c("#9593FA", "#DC77F6", "#FF65C8")
+
+shapevector = c(3,4)
+
 # Création des plots. Pour ce faire, on utilise les données sous format 'tall'
-ggplot(melted.all, aes(ID,value, col=variable)) + 
-  geom_point()
+ggplot(melted.all, aes(ID,value, col=variable))+ 
+  geom_point(shape=3) + 
+  scale_colour_manual(values=mypalette) +
+  ggtitle("Variation du taux de Cholestérol par patient, tous types de margarine confondu")
+
+
 #   +stat_smooth()
 
 ggplot(melted.typeA, aes(ID,value, col=variable)) + 
-  geom_point()
+  geom_point(shape=3) + 
+  scale_colour_manual(values=mypalette) +
+  ggtitle("Variation du taux de Cholestérol par patient, margarine de type A")
 
 
 ggplot(melted.typeB, aes(ID,value, col=variable)) + 
-  geom_point()
+  geom_point(shape=3) + 
+  scale_colour_manual(values=mypalette) +
+  ggtitle("Variation du taux de Cholestérol par patient, margarine de type B")
 
 
 # Faire une ANOVA pour chercher différence type A et type B ?
