@@ -22,6 +22,8 @@ Pour la partie topic modeling :
 voir [./exemples/2_Classification_exemple.ipynb]  
 
 
+pip3 install lemminflect????
+
 TITRES ET LEGENDES SUR TOUTES LES FIGURES +++++++++++
 
 à rendre :
