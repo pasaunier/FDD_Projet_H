@@ -88,64 +88,24 @@ boxplot(cholcsv$change4w, typeA$change4w, typeB$change4w,
 
 
 boxplot(cholcsv$change8w, typeA$change8w, typeB$change8w,
-        las=1,
-        main="Variation de cholestérolémie à 8 semaines par type de margarine",
+        las = 1,
+        main ="Variation de cholestérolémie à 8 semaines par type de margarine",
         varwidth = TRUE,
-        ylab= "Variation de Cholestérolémie",
+        ylab = "Variation de Cholestérolémie",
         names = c("Types A et B", "Type A", "Type B"),
         boxwex = 0.8,
-        ylim=c(-1.1,0)
+        ylim = c(-1.1,0)
         )
 
 
+
+one.way = aov(change8w ~Margarine, data = cholcsv)
+summary(one.way)
+
+one.way = aov(change4w ~Margarine, data = cholcsv)
+summary(one.way)
 
 # Faire une ANOVA pour chercher différence type A et type B ?
 # Faire une petite comparaison aux amélioration moyennes attendues avec statines ?
 
 
-# ********************************************
-# Pour tous types de margarine confondus :
-# Amélioration moyenne en 4 semaines :
-mean(cholcsv$Before - cholcsv$After4weeks)
-
-# écart-type d'amélioration moyenne en 4 semaines:
-sd(cholcsv$Before - cholcsv$After4weeks)
-
-# Amélioration moyenne en 8 semaines :
-mean(cholcsv$Before - cholcsv$After8weeks)
-
-# écart-type :
-sd(cholcsv$Before - cholcsv$After8weeks)
-# ********************************************
-
-
-# ********************************************
-# Pour Margarine de type A :
-# Amélioration moyenne en 4 semaines :
-mean(typeA$Before - typeA$After4weeks)
-
-# écart-type d'amélioration moyenne en 4 semaines:
-sd(typeA$Before - typeA$After4weeks)
-
-# Amélioration moyenne en 8 semaines :
-mean(typeA$Before - typeA$After8weeks)
-
-# écart-type :
-sd(typeA$Before - typeA$After8weeks)
-# ********************************************
-
-
-# ********************************************
-# Pour Margarine de type B :
-# Amélioration moyenne en 4 semaines :
-mean(typeB$Before - typeB$After4weeks)
-
-# écart-type d'amélioration moyenne en 4 semaines:
-sd(typeB$Before - typeB$After4weeks)
-
-# Amélioration moyenne en 8 semaines :
-mean(typeB$Before - typeB$After8weeks)
-
-# écart-type :
-sd(typeB$Before - typeB$After8weeks)
-# ********************************************
