@@ -62,11 +62,11 @@ mypalette <- c("#331E38", "#662A51", "#FF65C8")
 # Première visualisation : diagramme en barres du changement de cholestérolémie pour chaque patient
 
 # Passage des données en format "tall":
-myvars = c("ID", "change4w", "change8w")
-melted.all = melt(cholcsv[myvars], id.vars="ID")
-
-ggplot(melted.all, aes(ID,value, col=variable)) + 
-  geom_bar(position="dodge", stat="identity")
+# myvars = c("ID", "change4w", "change8w")
+# melted.all = melt(cholcsv[myvars], id.vars="ID")
+# 
+# ggplot(melted.all, aes(ID,value, col=variable)) + 
+#   geom_bar(position="dodge", stat="identity")
 
 
 ggplot(mapping = aes(x, y)) +
@@ -81,19 +81,26 @@ ggplot(mapping = aes(x, y)) +
            fill = mypalette[2]) +
   
   theme_classic()+
-  scale_y_continuous(expand = c(0, 0))+
-  xlab("")+
-  ylab("Variation de la Cholestérolémie (mmol/L)")
+  xlab("Identifiant de patient")+
+  ylab("Variation de la Cholestérolémie (mmol/L)")+ 
+  scale_x_discrete(breaks = c(seq(1,18)),
+                   labels=c(seq(1,18)), 
+                   limits=c(seq(1,18)))+
+  scale_y_reverse(expand = expansion(mult = c(0, .1)))+
+  coord_flip()+ 
+  ggtitle("Variation de la cholestérolémie après 4 et 8 semaines par patient.")+
+  theme(axis.text.y = element_text(size = 10),
+        axis.text.x = element_text(size = 10))
 
 
-bp = barplot(t(cholcsv[c("change4w", "change8w")]),
-        main="Evolution de la cholestérolémie par patient après 4 et 8 semaines",
-        ylab=" Variation de la Cholestérolémie (mmol/L)",
-        # border = "white",
-        # beside = TRUE,
-        las=1,
-        legend=rownames(data),
-        space=0.04)
+# bp = barplot(t(cholcsv[c("change4w", "change8w")]),
+#         main="Evolution de la cholestérolémie par patient après 4 et 8 semaines",
+#         ylab=" Variation de la Cholestérolémie (mmol/L)",
+#         # border = "white",
+#         # beside = TRUE,
+#         las=1,
+#         legend=rownames(data),
+#         space=0.04)
 
 
 
@@ -105,7 +112,8 @@ boxplot(cholcsv$change4w, typeA$change4w, typeB$change4w,
         ylab= "Variation de Cholestérolémie",
         names = c("Types A et B", "Type A", "Type B"),
         boxwex = 0.8,
-        ylim=c(-1.1,0)
+        ylim=c(-1.1,0)+
+        theme_classic()
 )
 
 
@@ -116,7 +124,9 @@ boxplot(cholcsv$change8w, typeA$change8w, typeB$change8w,
         ylab = "Variation de Cholestérolémie",
         names = c("Types A et B", "Type A", "Type B"),
         boxwex = 0.8,
-        ylim = c(-1.1,0)
+        ylim = c(-1.1,0)+
+        theme_classic()
+        
         )
 
 
