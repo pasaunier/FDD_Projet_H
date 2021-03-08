@@ -5,6 +5,7 @@
 
 #import des packages 
 library(readr)      #lecteur de csv
+library(reshape2)   #fonction melt 
 library(ggplot2)    #plotting
 
 
@@ -69,9 +70,9 @@ plt = ggplot(mapping = aes(x, y)) +
            size=0.5) +
   # Customisation légende:
   scale_fill_manual(name = 'Durée de régime :', 
-                      values =c(mypalette[2],mypalette[1]),
-                      labels = c('4 semaines','8 semaines'),
-                      limits = c('4 semaines','8 semaines')) +
+                      values =c(mypalette[1],mypalette[2]),
+                      labels = c('8 semaines','4 semaines'),
+                      limits = c('8 semaines','4 semaines')) +
   # enlever fond gris
   theme_classic()+
   # labels x et y
