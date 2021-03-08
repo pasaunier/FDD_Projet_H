@@ -40,9 +40,9 @@ cholcsv$change8w = with(cholcsv, After8weeks - Before)
 # diagramme en barres du changement de cholestérolémie pour chaque patient
 
 # couleurs:
-mypalette = c("#331E38", "#662A51", "#FF65C8")
+mypalette = c("#331E38", "#662A51")
 
-plt = ggplot(mapping = aes(x, y)) +
+ggplot(mapping = aes(x, y)) +
   geom_bar(data = cholcsv, # Barres "dummy" pour forcer légende
            aes(ID, change8w, fill="dummy"),
            width = 0.9,
@@ -82,7 +82,8 @@ plt = ggplot(mapping = aes(x, y)) +
         legend.text=element_text(size=10),
         legend.title=element_text(size=11))
   
-show(plt) #le plot peut mettre un peut de temps à afficher!
+#le plot peut mettre un peut de temps à s'afficher!
+# l'export et le zoom marchent avec.....
 ################################################################################
 # 2e et 3e visualisations : création des boxplots :
 
