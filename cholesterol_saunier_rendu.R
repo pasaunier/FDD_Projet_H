@@ -1,13 +1,3 @@
-"Le premier [exercice] a pour but de faire une analyse de
-visualisation avec R pour présenter la problématique générale"
-
-"
-Readme sur le dataset :
-
-A study tested whether cholesterol was reduced after using a certain brand of margarine as part of a low fat, low cholesterol diet.
-The subjects consumed on average 2.31g of the active ingredient, stanol easter, a day. This data set contains information on 18 people
-using margarine to reduce cholesterol over three time points.
-"
 # installation des packages si besoin:
 # install.packages("readr")
 # install.packages("reshape2")
@@ -21,6 +11,7 @@ library(ggplot2)    #plotting
 
 #charger les données du csv dans une variable 'cholcsv'
 cholcsv = read.csv("./data/Cholesterol_R.csv", header=TRUE, fileEncoding = 'UTF-8-BOM')
+
 #si le path du csv n'est pas valide, utiliser file.choose()
 # cholcsvfile = read.csv(file.choose(), header=TRUE, fileEncoding = 'UTF-8-BOM')
 
@@ -35,6 +26,7 @@ summary(cholcsv[-1])
 #utilisation de la fonction table pour voir les catégories de la colonne 'Margarine'
 table(cholcsv$Margarine)
 
+################################################################################
 # Feature engineering :
 #ajout de deux colonnes pour voir le changement de cholestérolémie:
 # change4w : After4weeks - Before
@@ -43,76 +35,84 @@ table(cholcsv$Margarine)
 cholcsv$change4w = with(cholcsv, After4weeks - Before)
 cholcsv$change8w = with(cholcsv, After8weeks - Before)
 
+################################################################################
+# Première visualisation : 
+# diagramme en barres du changement de cholestérolémie pour chaque patient
 
-"
-Il y a deux types de margarine dans le dataset : A et B
-il faut faire 3 jeux de data :
-  - Un pour le type A
-  - Un pour le type B
-  - Un avec les deux types mélangés
+# couleurs:
+mypalette = c("#331E38", "#662A51", "#FF65C8")
+legendpalette = c("#000000", "#000000")
 
-Pour voir si on peut observer des différences
-"
-
-typeA = cholcsv[cholcsv$Margarine=="A",]
-typeB = cholcsv[cholcsv$Margarine=="B",]
-
-mypalette <- c("#331E38", "#662A51", "#FF65C8")
-
-# Première visualisation : diagramme en barres du changement de cholestérolémie pour chaque patient
-
-# Passage des données en format "tall":
-# myvars = c("ID", "change4w", "change8w")
-# melted.all = melt(cholcsv[myvars], id.vars="ID")
-# 
-# ggplot(melted.all, aes(ID,value, col=variable)) + 
-#   geom_bar(position="dodge", stat="identity")
-
-
-ggplot(mapping = aes(x, y)) +
-  geom_bar(data = data.frame(x = cholcsv$ID, y = cholcsv$change8w),
+plt = ggplot(mapping = aes(x, y)) +
+  # Barres "dummy" avec mappage aes pour forcer la légende.........
+  geom_bar(data = cholcsv,
+           aes(ID, change8w, fill="dummy"),
            width = 0.9,
            stat = 'identity',
-           fill = mypalette[1])+
-  
-  geom_bar(data = data.frame(x = cholcsv$ID, y = cholcsv$change4w),
+           color = "black",
+           # fill = mypalette[1],
+           size=0.5) + 
+  # Barres les plus longues pour le change8w
+  geom_bar(data = cholcsv,
+           aes(ID, change8w),
+           width = 0.9,
+           stat = 'identity',
+           color = "black",
+           fill = mypalette[1],
+           size=0.5) + 
+  # Barres les plus courtes pour le change4w
+  geom_bar(data = cholcsv,
+           aes(x = ID, y = change4w, fill='a'),
            width = 0.5, 
            stat = 'identity',
-           fill = mypalette[2]) +
-  
+           fill = mypalette[2],
+           color = "black",
+           size=0.5) +
+  # Customisation légende:
+  scale_fill_manual(name = 'Durée de régime :', 
+                      values =c(mypalette[1],mypalette[2]),
+                      labels = c('8 semaines','4 semaines'),
+                      limits = c('8 semaines','4 semaines')) +
+  # enlever fond gris
   theme_classic()+
-  xlab("Identifiant de patient")+
-  ylab("Variation de la Cholestérolémie (mmol/L)")+ 
-  scale_x_discrete(breaks = c(seq(1,18)),
-                   labels=c(seq(1,18)), 
-                   limits=c(seq(1,18)))+
+  # labels x et y
+  xlab("Identifiant de patient") +
+  ylab("Variation de la Cholestérolémie (mmol/L)") + 
+  # scale axe x
+  scale_x_discrete(breaks = factor(cholcsv$ID),
+                   labels= factor(cholcsv$ID), 
+                   limits= factor(cholcsv$ID))+
+  # reverse axe y (pour les valeurs négatives)
   scale_y_reverse(expand = expansion(mult = c(0, .1)))+
-  coord_flip()+ 
-  ggtitle("Variation de la cholestérolémie après 4 et 8 semaines par patient.")+
+  # flip le graph
+  coord_flip() + 
+  # tittle
+  ggtitle("Variation de la cholestérolémie après 4 et 8 semaines pour chaque patient.") +
+  # font sizes
   theme(axis.text.y = element_text(size = 10),
-        axis.text.x = element_text(size = 10))
+        axis.text.x = element_text(size = 10)) +
+  theme(legend.position="bottom",
+        legend.text=element_text(size=10),
+        legend.title=element_text(size=11))
+  
+show(plt)
+################################################################################
+# 2e et 3e visualisations : création des boxplots :
 
-
-# bp = barplot(t(cholcsv[c("change4w", "change8w")]),
-#         main="Evolution de la cholestérolémie par patient après 4 et 8 semaines",
-#         ylab=" Variation de la Cholestérolémie (mmol/L)",
-#         # border = "white",
-#         # beside = TRUE,
-#         las=1,
-#         legend=rownames(data),
-#         space=0.04)
-
+# Filtrer le dataset en fonction du type de margarine :
+typeA = cholcsv[cholcsv$Margarine=="A",]
+typeB = cholcsv[cholcsv$Margarine=="B",]
 
 
 
 boxplot(cholcsv$change4w, typeA$change4w, typeB$change4w,
         las=1,
-        main="Variation de cholestérolémie à 8 semaines par type de margarine",
+        main="Variation de cholestérolémie à 4 semaines par type de margarine",
         varwidth = TRUE,
-        ylab= "Variation de Cholestérolémie",
-        names = c("Types A et B", "Type A", "Type B"),
-        boxwex = 0.8,
-        ylim=c(-1.1,0)+
+        ylab= "Variation de Cholestérolémie (mmol/L)",
+        names = c("Types A et B confondus", "Type A", "Type B"),
+        ylim = c(-1,-0.2), #important de bien garder la même échelle
+        boxwex = 0.7 +
         theme_classic()
 )
 
@@ -121,12 +121,11 @@ boxplot(cholcsv$change8w, typeA$change8w, typeB$change8w,
         las = 1,
         main ="Variation de cholestérolémie à 8 semaines par type de margarine",
         varwidth = TRUE,
-        ylab = "Variation de Cholestérolémie",
-        names = c("Types A et B", "Type A", "Type B"),
-        boxwex = 0.8,
-        ylim = c(-1.1,0)+
+        ylab = "Variation de Cholestérolémie (mmol/L)",
+        names = c("Types A et B confondus", "Type A", "Type B"),
+        ylim = c(-1,-0.2),
+        boxwex = 0.7+
         theme_classic()
-        
         )
 
 
