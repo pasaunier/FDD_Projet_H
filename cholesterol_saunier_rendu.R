@@ -28,10 +28,6 @@ cholcsv = read.csv("./data/Cholesterol_R.csv", header=TRUE, fileEncoding = 'UTF-
 #avant de passer à la suite, il est important d'explorer un peu le CSV
 #l'explorateur de variable de rstudio est bien pour cela.
 
-#récupérer le header du fichier dans une variable 'header'
-header = colnames(cholcsv)
-header
-
 #summary donne des stats rapides sur les colonnes
 #la première colonne 'id' est exclue des stats (pas de sens de faire des stats sur un id autoincrémenté)
 summary(cholcsv[-1])
@@ -39,7 +35,7 @@ summary(cholcsv[-1])
 #utilisation de la fonction table pour voir les catégories de la colonne 'Margarine'
 table(cholcsv$Margarine)
 
-
+# Feature engineering :
 #ajout de deux colonnes pour voir le changement de cholestérolémie:
 # change4w : After4weeks - Before
 # change8w : After8weeks - Before
@@ -61,19 +57,45 @@ Pour voir si on peut observer des différences
 typeA = cholcsv[cholcsv$Margarine=="A",]
 typeB = cholcsv[cholcsv$Margarine=="B",]
 
+mypalette <- c("#331E38", "#662A51", "#FF65C8")
 
-myvars = c("change4w", "change8w")
+# Première visualisation : diagramme en barres du changement de cholestérolémie pour chaque patient
+
+# Passage des données en format "tall":
+myvars = c("ID", "change4w", "change8w")
+melted.all = melt(cholcsv[myvars], id.vars="ID")
+
+ggplot(melted.all, aes(ID,value, col=variable)) + 
+  geom_bar(position="dodge", stat="identity")
 
 
-# Première visualisation : barres superposés du changement de cholestérolémie pour chaque patient
+ggplot(mapping = aes(x, y)) +
+  geom_bar(data = data.frame(x = cholcsv$ID, y = cholcsv$change8w),
+           width = 0.9,
+           stat = 'identity',
+           fill = mypalette[1])+
+  
+  geom_bar(data = data.frame(x = cholcsv$ID, y = cholcsv$change4w),
+           width = 0.5, 
+           stat = 'identity',
+           fill = mypalette[2]) +
+  
+  theme_classic()+
+  scale_y_continuous(expand = c(0, 0))+
+  xlab("")+
+  ylab("Variation de la Cholestérolémie (mmol/L)")
+
 
 bp = barplot(t(cholcsv[c("change4w", "change8w")]),
         main="Evolution de la cholestérolémie par patient après 4 et 8 semaines",
-        ylab=" Evolution de la Cholestérolémie",
-        border = "white",
+        ylab=" Variation de la Cholestérolémie (mmol/L)",
+        # border = "white",
+        # beside = TRUE,
         las=1,
         legend=rownames(data),
         space=0.04)
+
+
 
 
 boxplot(cholcsv$change4w, typeA$change4w, typeB$change4w,

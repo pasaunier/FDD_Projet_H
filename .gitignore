@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+noneng.csv
+
+tweet_df_wdocs_trf.pk
