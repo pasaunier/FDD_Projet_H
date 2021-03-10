@@ -82,8 +82,8 @@ ggplot(mapping = aes(x, y)) +
         legend.text=element_text(size=10),
         legend.title=element_text(size=11))
   
-#le plot peut mettre un peut de temps à s'afficher!
-# l'export et le zoom marchent avec.....
+# le plot est trop grand pour r studio!
+# l'export et le zoom marchent
 ################################################################################
 # 2e et 3e visualisations : création des boxplots :
 
