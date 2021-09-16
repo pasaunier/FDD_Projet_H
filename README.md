@@ -1,31 +1,13 @@
 # FDD_Projet_H
-Projet final FDD ZZ2
+Projet final FDD 4e année
 
+Trois exercices :
+- Analyse statistique de données
+- Classification
+- Topic Modeling
 
-Pour le topic modeling sur les tweets, le dataset est déjà un peu nettoyé
-pas d'éval de performance du code
-méthode importante commentaires ++++++++
-
-partie classification est la plus importante  
-
+Seul le dataset de topic modeling est un peu nettoyé.
+La performance du code n'est pas évaluée.
 
 cross validation utilisable pour la classification !!!  
-GridSearchCV doc : https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html  
-+fichier exemple  
-
-Anciens exemples de TP :  
-
-Pour la partie classif :  
-voir [./exemples/2_Classification_example.ipynb]  
-  
-Pour la partie topic modeling :  
-voir [./exemples/2_Classification_exemple.ipynb]  
-
-
-pip3 install lemminflect????
-
-TITRES ET LEGENDES SUR TOUTES LES FIGURES +++++++++++
-
-à rendre :
-code, notebooks et R  
-CR en Pdf
+GridSearchV doc : https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html 
